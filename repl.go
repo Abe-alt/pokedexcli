@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func startRepl() {
@@ -11,12 +12,13 @@ func startRepl() {
 	for {
 		fmt.Print("pokedex > ")
 		scanner.Scan()
-		words := scanner.Text()
+		//words := strings.ToLower(scanner.Text())
+		words := toLower(scanner.Text())
 		if len(words) == 0 {
 			continue
 		}
-		//commandName :=
-		command, exists := getCommands()[words]
+		commandName := words[0]
+		command, exists := getCommands()[commandName]
 		if exists {
 			err := command.callback()
 			if err != nil {
@@ -31,6 +33,12 @@ func startRepl() {
 
 	}
 
+}
+
+func toLower(s string) []string {
+	word := strings.ToLower(s)
+	words := strings.Fields(word)
+	return words
 }
 
 type commandCli struct {
