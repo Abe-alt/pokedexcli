@@ -47,6 +47,11 @@ type commandCli struct {
 	callback    func() error
 }
 
+type config struct {
+	nextUrl     *string
+	previousUrl *string
+}
+
 func getCommands() map[string]commandCli {
 	return map[string]commandCli{
 		"help": {
@@ -58,6 +63,11 @@ func getCommands() map[string]commandCli {
 			name:        "exit",
 			description: "exit the program",
 			callback:    commandExit,
+		},
+		"map": {
+			name:        "map",
+			description: "display maps",
+			callback:    nil,
 		},
 	}
 }
