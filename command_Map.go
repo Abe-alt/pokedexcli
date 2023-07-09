@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/Abe-alt/pokedexcli.git/internal/pokeapi"
 	"log"
 )
 
-func commandMap() error {
+func commandMap(cfg *config) error {
 
-	pokeApiClient := pokeapi.NewClient()
+	//pokeApiClient := pokeapi.NewClient()
 
-	resp, err := pokeApiClient.ListLocationAreas()
+	resp, err := cfg.pokeApiClient.ListLocationAreas(cfg.nextLocationUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,5 +19,9 @@ func commandMap() error {
 	for _, area := range resp.Results {
 		fmt.Printf("- %s\n", area.Name)
 	}
+
+	cfg.nextLocationUrl = resp.Next
+	cfg.previousLocationUrl = resp.Previous
+
 	return nil
 }

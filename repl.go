@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startRepl() {
+func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("pokedex > ")
@@ -20,7 +20,7 @@ func startRepl() {
 		commandName := words[0]
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback()
+			err := command.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -30,7 +30,6 @@ func startRepl() {
 			fmt.Println("undefined command! Try Again ..")
 			continue
 		}
-
 	}
 
 }
@@ -44,12 +43,7 @@ func toLower(s string) []string {
 type commandCli struct {
 	name        string
 	description string
-	callback    func() error
-}
-
-type config struct {
-	nextUrl     *string
-	previousUrl *string
+	callback    func(*config) error
 }
 
 func getCommands() map[string]commandCli {
