@@ -67,7 +67,7 @@ func getCommands() map[string]commandCli {
 		"map": {
 			name:        "map",
 			description: "display maps",
-			callback:    nil,
+			callback:    commandMap,
 		},
 	}
 }
