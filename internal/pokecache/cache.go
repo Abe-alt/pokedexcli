@@ -4,27 +4,27 @@ import (
 	"time"
 )
 
+type Cache struct {
+	cache map[string]cacheEntry
+}
+
 type cacheEntry struct {
 	createdAt time.Time
 	val       []byte
 }
 
-type Cache struct {
-	cache map[string]cacheEntry
-}
-
-func NewCache(interval time.Duration) Cache {
+func NewCache() Cache {
 	c := Cache{
 		cache: make(map[string]cacheEntry),
 	}
 	return c
 }
 
-func (c *Cache) add(key string, value []byte) {
+func (c *Cache) Add(key string, value []byte) {
 	//cache := make(map[string]cacheEntry)
 
 	c.cache[key] = cacheEntry{
-		createdAt: time.Now(),
+		createdAt: time.Now().UTC(),
 		val:       value,
 	}
 
