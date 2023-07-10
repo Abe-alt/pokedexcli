@@ -36,12 +36,28 @@ func (c *Cache) get(key string) ([]byte, bool) {
 	return val.val, ok
 }
 
-func (c *Cache) reaploop(now time.Time, last time.Duration) {
-
+func (c *Cache) Reap() {
+	t := time.Now().UTC().Add(time.Millisecond * 2000)
 	for k, v := range c.cache {
-		if v.createdAt.Before(now.Add(-last)) {
+		if v.createdAt.Before(t) {
 			delete(c.cache, k)
 		}
 	}
-
 }
+
+func (c *Cache) reaploop() {
+	ticker := time.NewTicker(time.Minute * 1)
+	for range ticker.C {
+		c.Reap()
+	}
+}
+
+//func (c *Cache) reaploop(now time.Time, last time.Duration) {
+//
+//	for k, v := range c.cache {
+//		if v.createdAt.Before(now.Add(-last)) {
+//			delete(c.cache, k)
+//		}
+//	}
+//
+//}

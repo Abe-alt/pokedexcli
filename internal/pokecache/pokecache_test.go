@@ -1,7 +1,9 @@
 package pokecache
 
 import (
+	"fmt"
 	"testing"
+	"time"
 )
 
 func TestCreateCache(t *testing.T) {
@@ -48,4 +50,14 @@ func TestAddCache(t *testing.T) {
 	//	t.Error("value doesn't match !")
 	//}
 
+}
+
+func TestReap(t *testing.T) {
+	cache := NewCache()
+	cache.Add("key1", []byte("val1"))
+	cache.Add("key2", []byte("val2"))
+	fmt.Println(cache)
+	cache.Reap()
+	time.Sleep(time.Millisecond * 5000)
+	fmt.Println(cache)
 }
