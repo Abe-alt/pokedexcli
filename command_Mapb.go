@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 )
 
 func commandMapb(cfg *config) error {
@@ -13,7 +12,7 @@ func commandMapb(cfg *config) error {
 	}
 	resp, err := cfg.pokeApiClient.ListLocationAreas(cfg.previousLocationUrl)
 	if err != nil {
-		log.Fatal(err)
+		return err //log.Fatal(err)
 	}
 
 	fmt.Println("Location Areas :")
