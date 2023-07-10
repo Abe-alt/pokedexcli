@@ -13,14 +13,39 @@ func TestCreateCache(t *testing.T) {
 
 func TestAddCache(t *testing.T) {
 	cache := NewCache()
-	cache.Add("key1", []byte("value1"))
-	//fmt.Println(cache)
-	val, ok := cache.get("key1")
-	if !ok {
-		t.Error("key do not exist")
+
+	cases := []struct { // table for better reading the original code bellow
+		inputKey   string
+		inputValue []byte
+	}{
+		{
+			inputKey:   "key1",
+			inputValue: []byte("value1"),
+		},
+		{
+			inputKey:   "key2",
+			inputValue: []byte("value2"),
+		},
 	}
-	if string(val) != "value1" {
-		t.Error("value doesn't match !")
+	for _, cas := range cases {
+		cache.Add(cas.inputKey, cas.inputValue)
+		val, ok := cache.get(cas.inputKey)
+		if !ok {
+			t.Error("key do not exist")
+		}
+		if string(val) != string(cas.inputValue) {
+			t.Error("value doesn't match !")
+		}
 	}
+
+	//cache.Add("key1", []byte("value1"))
+	////fmt.Println(cache)
+	//val, ok := cache.get("key1")
+	//if !ok {
+	//	t.Error("key do not exist")
+	//}
+	//if string(val) != "value1" {
+	//	t.Error("value doesn't match !")
+	//}
 
 }
