@@ -1,14 +1,16 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 )
 
 func commandMapb(cfg *config) error {
 
-	//pokeApiClient := pokeapi.NewClient()
-
+	if cfg.previousLocationUrl == nil {
+		return errors.New("you're on the 1st page")
+	}
 	resp, err := cfg.pokeApiClient.ListLocationAreas(cfg.previousLocationUrl)
 	if err != nil {
 		log.Fatal(err)

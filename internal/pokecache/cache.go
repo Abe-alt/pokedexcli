@@ -13,8 +13,11 @@ type Cache struct {
 	cache map[string]cacheEntry
 }
 
-func NewCache() {
-
+func NewCache(interval time.Duration) Cache {
+	c := Cache{
+		cache: make(map[string]cacheEntry),
+	}
+	return c
 }
 
 func (c *Cache) add(key string, value []byte) {
@@ -31,4 +34,14 @@ func (c *Cache) get(key string) ([]byte, bool) {
 
 	val, ok := c.cache[key]
 	return val.val, ok
+}
+
+func (c *Cache) reaploop(now time.Time, last time.Duration) {
+
+	for k, v := range c.cache {
+		if v.createdAt.Before(now.Add(-last)) {
+			delete(c.cache, k)
+		}
+	}
+
 }
