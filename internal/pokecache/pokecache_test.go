@@ -60,6 +60,10 @@ func TestReap(t *testing.T) {
 	cache.Add("key2", []byte("val2"))
 	fmt.Println(cache)
 	cache.Reap(interval)
-	fmt.Println(cache)
+
+	_, ok := cache.get("key1")
+	if ok {
+		t.Errorf("key should have been reaped")
+	}
 
 }
