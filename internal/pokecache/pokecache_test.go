@@ -60,6 +60,6 @@ func TestReap(t *testing.T) {
 	cache.Add("key2", []byte("val2"))
 	fmt.Println(cache)
 	cache.Reap(interval)
-	//time.Sleep(time.Millisecond * 2000)
 	fmt.Println(cache)
+
 }
