@@ -31,7 +31,7 @@ func TestAddCache(t *testing.T) {
 	}
 	for _, cas := range cases {
 		cache.Add(cas.inputKey, cas.inputValue)
-		val, ok := cache.get(cas.inputKey)
+		val, ok := cache.Get(cas.inputKey)
 		if !ok {
 			t.Error("key do not exist")
 		}
@@ -61,7 +61,7 @@ func TestReap(t *testing.T) {
 	fmt.Println(cache)
 	cache.Reap(interval)
 
-	_, ok := cache.get("key1")
+	_, ok := cache.Get("key1")
 	if ok {
 		t.Errorf("key should have been reaped")
 	}

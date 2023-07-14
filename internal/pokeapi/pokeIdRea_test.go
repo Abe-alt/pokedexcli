@@ -5,14 +5,13 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
 	"testing"
 )
 
 func TestPokeId(t *testing.T) {
-	id := 1
+	var locationName string
 	pokeEndpoint := "https://pokeapi.co/api/v2/location-area/"
-	fullPokeUrl := pokeEndpoint + strconv.Itoa(id)
+	fullPokeUrl := pokeEndpoint + locationName
 
 	fmt.Println(fullPokeUrl)
 	req, err := http.NewRequest("GET", fullPokeUrl, nil)

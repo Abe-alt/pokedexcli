@@ -62,3 +62,38 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 	return locationAreaResp, nil
 
 }
+
+func (c *Client) GetLocationArea(locationName string) (PokemonEncounters, error) {
+
+	pokeEndpoint := "https://pokeapi.co/api/v2/location-area/"
+	fullPokeUrl := pokeEndpoint + locationName
+
+	req, err := http.NewRequest("GET", fullPokeUrl, nil)
+	if err != nil {
+		return PokemonEncounters{}, nil
+	}
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return PokemonEncounters{}, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode > 399 {
+		return PokemonEncounters{}, fmt.Errorf("bad status code,%s", err)
+	}
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return PokemonEncounters{}, nil
+	}
+	pokemonEncounters := PokemonEncounters{}
+	err = json.Unmarshal(data, &pokemonEncounters)
+	if err != nil {
+		return PokemonEncounters{}, nil
+	}
+
+	return pokemonEncounters, nil
+
+}
