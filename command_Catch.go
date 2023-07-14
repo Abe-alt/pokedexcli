@@ -21,7 +21,7 @@ func commandCatch(cfg *config, args ...string) error {
 	if r > 20 {
 		fmt.Printf("You caught `%s` \n", pokemon.Name)
 		cfg.caughtPoke[pokemon.Name] = pokemon
-
+		
 	} else {
 		return fmt.Errorf("You missed catching %s ... \n Try again ! \n ", pokemon.Name)
 	}
