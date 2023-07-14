@@ -10,7 +10,7 @@ func commandExplore(cfg *config, args ...string) error {
 		return errors.New("wrong args")
 	}
 	locationName := args[0]
-	fmt.Println(locationName)
+	fmt.Printf("Here are the Pokemons in %s : ", locationName)
 	resp, err := cfg.pokeApiClient.GetLocationArea(locationName)
 	if err != nil {
 		return err

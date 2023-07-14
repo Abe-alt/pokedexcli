@@ -73,6 +73,18 @@ func (c *Client) GetLocationArea(locationName string) (PokemonEncounters, error)
 		return PokemonEncounters{}, nil
 	}
 
+	data, ok := c.cache.Get(fullPokeUrl)
+	if ok {
+		fmt.Println("***from cache***")
+		pokemonEncounters := PokemonEncounters{}
+		err = json.Unmarshal(data, &pokemonEncounters)
+		if err != nil {
+			return PokemonEncounters{}, nil
+		}
+		return pokemonEncounters, nil
+	}
+
+	fmt.Println("***from request***")
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return PokemonEncounters{}, err
@@ -84,10 +96,13 @@ func (c *Client) GetLocationArea(locationName string) (PokemonEncounters, error)
 		return PokemonEncounters{}, fmt.Errorf("bad status code,%s", err)
 	}
 
-	data, err := io.ReadAll(resp.Body)
+	data, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return PokemonEncounters{}, nil
 	}
+
+	c.cache.Add(fullPokeUrl, data)
+
 	pokemonEncounters := PokemonEncounters{}
 	err = json.Unmarshal(data, &pokemonEncounters)
 	if err != nil {
