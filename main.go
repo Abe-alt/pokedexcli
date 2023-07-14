@@ -1,6 +1,8 @@
 package main
 
-import "github.com/Abe-alt/pokedexcli.git/internal/pokeapi"
+import (
+	"github.com/Abe-alt/pokedexcli.git/internal/pokeapi"
+)
 
 type config struct {
 	pokeApiClient       pokeapi.Client // to keep using http client more efficiently
@@ -14,5 +16,6 @@ func main() {
 		pokeApiClient: pokeapi.NewClient(),
 		caughtPoke:    make(map[string]pokeapi.Pokemons),
 	}
+
 	startRepl(&cfg)
 }
